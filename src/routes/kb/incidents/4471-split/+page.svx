@@ -13,11 +13,12 @@ signature: 'v1.eyJzdWIiOiI2ODU5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
-[#4471](/kb/incidents/4471) says one issue, one fix queued. Read the reports, not the subjects, and
-it holds more than one problem. The fix that is queued closes one of them.
+[#4471](/kb/incidents/4471) said one issue, one fix queued. Read the reports, not the subjects, and
+it holds more than one problem. Engineering closed #4471 on 5 October; that closed two of them.
 
 <Callout kind="warn">
-Not known. One ticket per problem, in the table below. The parser fix alone leaves the others open.
+#4471 is closed, the one-day shift is not. Its reports were filed under the parser, and the parser
+fix does not touch them. Keep <a href="https://github.com/jeremypoulain/mega-s01e03-what-it-shows/issues/3">its ticket</a> open.
 </Callout>
 
 ## What #4471 holds
@@ -31,10 +32,19 @@ Not known. One ticket per problem, in the table below. The parser fix alone leav
   }}
 />
 
+## Where each one stands
+
+From the engineering update, #4471 closed 5 October:
+
+- **`parser`: fixed.** `fix(dates): parse dd/mm for eu locales`. Ticket closed.
+- **`hint`: won't fix.** The booking-v3 form is retired, so its hint goes with it. Ticket closed.
+- **`shift`: open.** The update does not mention it. A dd/mm parser and a retired form leave a
+  timezone conversion where it was.
+
 ## The problems
 
 **`parser`: the shared parser reads dates month first.** Every tenant writes the day first, so
-`02/12` (2 December) comes out as 12 February. Every tenant, every way in. This is the fix that is queued.
+`02/12` (2 December) comes out as 12 February. Every tenant, every way in. Fixed on 5 October.
 
 **`hint`: the booking-v3 form tells people to type the month first.** It prints `MM/DD/YYYY` under
 its date field, then reads the date the tenant's way. People do what the hint says and the date
@@ -51,7 +61,8 @@ one-day move (`desk-notes.json`) but filed them under `parser` by tenant.
 - One id, one report: the export pages overlap, so repeats are dropped before counting.
 - The cause comes from the tenant and the way in (`#lib/kb/causes.ts`), not from the intake tag.
   Intake guesses from the reporter's browser, and the guess is often wrong.
-- One-day moves are split out first, from the desk's own notes.
+- Causes are counted the desk's way, as the export's own view counts them. The one-day moves from
+  the desk's notes get a row and a ticket of their own, and stay counted under the cause they are filed in.
 - Every number on this page is computed from the export when the page renders. When the desk
   merges more reports, the table follows.
 
